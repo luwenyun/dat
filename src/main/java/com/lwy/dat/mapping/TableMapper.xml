@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lwy.dat.dao.TableMapper">
+  <resultMap id="BaseResultMap" type="com.lwy.dat.pojo.Table">
+    <constructor>
+      <idArg column="table_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="rows" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="columns" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ctime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="table_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="label" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="comments" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="original_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="parent" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="child" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="folder_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    table_id, rows, columns, ctime, type, table_name, label, comments, original_name,
+    parent, child,status, folder_id
+  </sql>
+  <select id="getTableIdsById"  resultType="Integer">
+    select
+    table_id
+    from t_table
+    where folder_id=#{folderId,jdbcType=INTEGER}
+  </select>
+  <select id="getTableByName"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_table
+    where table_name= #{fileName,jdbcType=VARCHAR} and folder_id=#{folderId,jdbcType=INTEGER}
+  </select>
+  <select id="getTableIdByName"  resultType="Integer">
+    select
+    table_id
+    from t_table
+    where folder_id = #{folderId,jdbcType=INTEGER} and table_name=#{fileName,jdbcType=VARCHAR}
+  </select>
+  <select id="getTableNamesByFolderId" parameterType="java.lang.Integer" resultType="String">
+    select
+    table_name
+    from t_table
+    where folder_id = #{folderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteTableByName">
+    delete from t_table
+    where table_name = #{fileName,jdbcType=VARCHAR} and folder_id=#{folderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lwy.dat.pojo.Table">
+    insert into t_table (table_id, rows, columns,
+      ctime, type, table_name,
+      label, comments, original_name,
+      parent, child, folder_id,status
+      )
+    values (#{tableId,jdbcType=INTEGER}, #{rows,jdbcType=INTEGER}, #{columns,jdbcType=INTEGER},
+      #{ctime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR},
+      #{label,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR}, #{originalName,jdbcType=VARCHAR},
+      #{parent,jdbcType=VARCHAR}, #{child,jdbcType=VARCHAR}, #{folderId,jdbcType=INTEGER},
+      #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lwy.dat.pojo.Table">
+    insert into t_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tableId != null">
+        table_id,
+      </if>
+      <if test="rows != null">
+        rows,
+      </if>
+      <if test="columns != null">
+        columns,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="tableName != null">
+        table_name,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="comments != null">
+        comments,
+      </if>
+      <if test="originalName != null">
+        original_name,
+      </if>
+      <if test="parent != null">
+        parent,
+      </if>
+      <if test="child != null">
+        child,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="folderId != null">
+        folder_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tableId != null">
+        #{tableId,jdbcType=INTEGER},
+      </if>
+      <if test="rows != null">
+        #{rows,jdbcType=INTEGER},
+      </if>
+      <if test="columns != null">
+        #{columns,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null">
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="originalName != null">
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="parent != null">
+        #{parent,jdbcType=VARCHAR},
+      </if>
+      <if test="child != null">
+        #{child,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="folderId != null">
+        #{folderId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateFileByName" >
+  update t_table
+  <set>
+    <if test="fileName != null">
+      table_name = #{fileName,jdbcType=VARCHAR},
+    </if>
+  </set>
+  where table_id = #{fileId,jdbcType=INTEGER}
+</update>
+  <update id="updateFileChild" >
+    update t_table
+    <set>
+      <if test="child != null">
+        child = #{child,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where table_id = #{fileId,jdbcType=INTEGER}
+  </update>
+  <update id="updateFileStatusById" >
+    update t_table
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where table_id = #{fileId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lwy.dat.pojo.Table">
+    update t_table
+    set rows = #{rows,jdbcType=INTEGER},
+      columns = #{columns,jdbcType=INTEGER},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      comments = #{comments,jdbcType=VARCHAR},
+      original_name = #{originalName,jdbcType=VARCHAR},
+      parent = #{parent,jdbcType=VARCHAR},
+      child = #{child,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      folder_id = #{folderId,jdbcType=INTEGER}
+    where table_id = #{tableId,jdbcType=INTEGER}
+  </update>
+  <update id="updateFileInfoById" >
+    update t_table
+    set rows=#{rows,jdbcType=INTEGER}
+    where table_id=#{tableId,jdbcType=INTEGER}
+  </update>
+  <update id="updateFileColumnsById" >
+    update t_table
+    set columns=#{columns,jdbcType=INTEGER}
+    where table_id=#{tableId,jdbcType=INTEGER}
+  </update>
+</mapper>

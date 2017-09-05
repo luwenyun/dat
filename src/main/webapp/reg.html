@@ -1,0 +1,608 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+  	<title>注册-DAT</title>
+  	<meta charset="UTF-8">
+    <!-- <meta http-equiv="Access-Control-Allow-Origin" content="*"> -->
+  	<link rel="stylesheet" type="text/css" href="./css/base.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./font/iconfont.css"> -->
+    <script type="text/javascript" src="./js/d3.min.js"></script>
+  	<style type="text/css">
+  	body{
+  		background:#f6f6f6;
+  		
+  	}
+  	html{
+  		background:#f6f6f6;
+  	}
+  	#header{
+  		width:100%;
+  		height:64px;
+      background:#F0F2F3;
+      box-shadow: 0 0 6px 0 rgba(0,0,0,.12), 0 10px 12px 0 rgba(170,182,206,.2), inset 0 -1px 0 0 rgba(255,255,255,.3);
+
+  	}
+  	/*.logo{
+  		float:left;
+  		margin-left:48px;
+  	}*/
+    .logo{
+      display: inline-block;
+      float:left;
+      background-color: #5182E4;
+      color: #fff;
+      text-align: center;
+      font-size:16px;
+      font-weight: 700;
+      /*padding-top: 20px;*/
+      line-height: 64px;
+      width:80px;
+      height: 64px;
+    }
+  	.clearfloat:after{
+  		display:block;
+  		clear:both;
+  		content:"";
+  		visibility:hidden;
+  		height:0px;
+  		} 
+    .clearfloat{
+    	zoom:1;
+    } 
+  	#title{
+  		width:620px;
+  		margin:0px auto;
+  		margin-top:25px;
+  		border-bottom:2px solid #3399cc;
+  		/*overflow:hidden;*/
+  	}
+  	.tl{
+  		float:left;
+  		margin:13px 0px;
+  	}
+  	.tr{
+  		float:right;
+  		margin:13px 0px;
+  		font-size:12px;
+  		font-family:"PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  	}
+  	.tr a{
+  		color:#0085d7;
+  	}
+  	.centent{
+  		line-height:16px
+        line-height:20px;
+  		font-size:16px;
+  		font-weight:700;
+  		font-family:"PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  	}
+  	.login{
+  		font-weight:700;
+  	}
+  	/*.clearfix{
+  		clear:both;
+  	}*/
+  	#form-reg{
+  		width:620px;
+  		background:#fff;
+  		margin:auto;
+  		margin-top:23px;
+  		margin-bottom:78px;
+  	}
+  	/*form*/
+  	/*.tel,.pwd,.checkcode,.yqcode,.reg{
+  		margin-bottom:10px;
+  	}*/
+  	.field{
+  		border:1px solid;
+  		border-color:#ddd;
+  		margin-bottom:10px;
+  		padding-left:1px;
+  		margin-right:10px;
+  		line-height:30px;
+  		color:#999;
+  		font-family: "PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  		outline:none;
+
+  	}
+  	.form-size{
+  		width:250px;
+  		height:30px;
+  	}
+
+    .checkcode img{
+      vertical-align:middle;
+      margin-left:-4px;
+      margin-top:-5px;
+      border:1px solid #ddd;
+    }
+  	.yqcode em{
+  		font-size:12px;
+  		font-family:"PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  	}
+  	.sub{
+      display:block;
+      width:80px;
+      height:25px;
+  		line-height:25px;
+  		font-size:14px;
+      text-align:center;
+  		color:#fff;
+      margin-top:10px;
+      border-radius:3px;
+  		background:#ffc952;    
+  	}
+    .sub:hover{
+      text-decoration:none;
+    }
+    .reg .disabled{
+      color:gray;
+      background-color:#DDD;
+    }
+  	.isagreen{
+  		margin-top:10px;
+  	}
+  	.agreen{
+  		display:inline-block;
+  		font-size:14px;
+  		font-weight:400;
+  		font-family:"PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  		vertical-align:baseline;
+  	}
+  	.agreen a{
+
+  		color:gray;
+  	}
+  	.field-tips{
+  		display:none;
+  		height:20px;
+  		line-height:20px;
+  		font-size:12px;
+  		color:red;
+  		margin-top:-10px;
+  		margin-bottom:5px;
+  	}
+  	.pwdcontainer .password-level{
+  		display:inline-block;
+      display:none;
+  	}
+  	.pwdcontainer .password-level span{
+  		background:#FFD099;
+  		display:inline-block;
+  		width:30px;
+  		text-align:center;
+  	}
+  	/*p.field-tips{
+  		display:none;
+  	}*/
+    .checkcode {
+      position:relative;
+    }
+    #check-icon{
+      display:none;
+      font-size:18px;
+      position:absolute;
+      left:120px;
+      top:4px;
+      color:#b5de70;
+      vertical-align:middle;
+      /*z-index:5;*/
+      /*margin-left:-35px;*/
+    }
+    .error-tip{
+      display:none;
+      width:233px;
+      height: 25px;
+     /* line-height:25px;*/
+      font-size:14px;
+      color:red;
+      font-weight:bold;
+      border:px solid #d3d3cf;
+      background-color:#fbfce9;
+      padding:10px;
+      border-radius:3px;
+    }
+    /*.regInfo,.telCode{
+      padding: 60px 128px 0px 128px;
+    }*/
+    .container{
+      padding:60px 128px 60px 128px;
+      position: relative;
+      height: 180px;
+    }
+    .telCode,.regInfo{
+      background: white;
+      position: absolute;
+      top:48px;
+      left: 170px;
+    }
+    .telCode{
+      box-shadow: 0 0 6px 0 rgba(0,0,0,.1), 0 10px 12px 0 rgba(170,182,206,.36);
+    }
+    .reg-title h2,.reg-title p{
+      text-align: center;
+      
+    }
+    .reg-title h2{
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .reg-title p{
+      font-weight: 400;
+      font-size: 14px;
+      color: #ababab;
+    }
+    /*.telCode input{
+      border: 0;
+      height: 25px;
+      font-size: 14px;
+      outline: none;
+    }*/
+    .reg-title,.reg-sureCode,.reg-telOrEmail,.reg-submit{
+       border-bottom: 1px solid #eee;
+    }
+    .reg-title,.reg-submit{
+      padding:10px 0 10px 0;
+    }
+    .telCode input,.reg-sureCode input{
+      padding: 15px 8px;
+      height: 48px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #787878;
+      border: 0;
+      outline: 0;
+      box-sizing: border-box;
+      /*margin-right: 10px;*/
+    }
+    .reg-submit{
+      border-bottom: 0;
+      text-align: right;
+    }
+    .reg-sureCode a{
+      display: inline-block;
+      height: 48px;
+      text-align: center;
+      line-height: 48px;
+      color: #ababab;
+      background-color: #f7f7f7;
+      width: 94px;
+      font-size: 14px;
+    }
+    .reg-submit a{
+      margin-right: 15px;
+      color: #ababab;
+      font-size: 14px;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+
+    }
+    .reg-sureCode a:hover,.reg-submit a:hover{
+      text-decoration:none;
+    }
+    .reg-submit a:hover{
+       background-color: #f7f7f7;
+    }
+  	</style>
+  </head>
+  <body>
+  	<!-- header -->
+  	<div id="header">
+  			<div class="logo"><span>DAT</span></div>
+  	</div>
+  	<div id="title" class="clearfloat">
+  		<div class="tl">
+  			<span class="centent">免费注册DAT</span>
+  		</div>
+  		<div class="tr">
+  			<span class="is-user">已有DAT账户？</span>
+  			<a href="/login.html" class="login">立即登录&gt;&gt;</a>
+  		</div>
+  		<!-- <div class="clearfix"></div> -->
+  	</div>
+  	<!-- reg form -->
+  	<div id="form-reg">
+  		<div class="container">
+        <div class="error-tip" style="position: absolute;top: 0px;left: 170px;display: none;">验证码不正确</div>
+        <div class="regInfo ">
+            <div class="error-tip">验证码错误</div>
+      			<div class="tel">
+      				<input type="text"   name="tel" class="field form-size" data-placeholder="请输入手机号/邮箱" placeholder="请输入手机号/邮箱" >
+      				<!-- hidden -->
+      					<p class="field-tips">手机号格式不对</p>
+      			</div>
+            <div class="tel">
+              <input type="text"   name="username" class="field form-size" data-placeholder="用户名" placeholder="请输入用户名" >
+              <!-- hidden -->
+                <p class="field-tips">用户名格式不对</p>
+            </div>
+      			<div class="pwd">
+      				<div class="pwdcontainer">
+      					<input type="password" name="password" class="field form-size" data-placeholder="请输入密码，密码由6-16位数字英文组成" placeholder="请输入密码，密码由6-16位数字英文组成" >
+                <!-- hidden -->
+                <div class="password-level">
+                  <span>强</span>
+                  <span>中</span>
+                  <span>弱</span>
+                </div>
+                <!-- hidden -->
+                <p class="field-tips">密码为6-16位数字英文组合</p>		
+      			  </div>
+             </div>
+      			<div class="checkcode">
+      				<input type="text"  class="field" name="checkcode" data-placeholder="验证码" placeholder="验证码">
+              <i id="check-icon" class="iconfont icon-dagou"></i>
+      				<img id="checkcode" src="./api/user/code">
+      			</div>
+            <p class="field-tips">验证码格式不对</p>
+      			<div class="reg">
+              <!-- add class disabled-->
+      				<a id="submit-btn"  class="sub " href="javascript:void(0)">立即注册</a>
+      			</div>
+      		</div>
+        <div class="telCode fn-hide">
+             <div class="reg-title"><h2>验证手机</h2><p>请输入你收到的4位确认码</p></div>
+              <div class="reg-telOrEmail"><input type="text" class="telOrEmail" name="sureCode" value="18874047217"></div>
+              <div class="reg-sureCode"><input type="text" class="sureCode" placeholder="4位数确认码"><a href="javascript:void(0);">重发确认码</a></div>
+              <div class="reg-submit"><a href="javascript:void(0);">取消</a><a href="javascript:void(0);">确定</a></div>
+        </div>
+        </div>
+  	</div>
+    <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var local={
+          reg:{
+              vailide1001:'手机号/邮箱不能为空',
+              vailide1002:'手机号格式不正确',
+              vailide1003:'邮箱格式不正确',
+              vailide1004:'该账号已被注册',
+              vailide1005:'密码不能为空',
+              vailide1006:'密码为6-16位数字英文组合',
+              vailide1007:'系统异常，请稍后重试',
+          }
+        };
+        var regtext=local.reg;
+        //点击获取验证码
+        $("#checkcode").on("click",function(){
+            console.log("click check -img");
+            $(this).attr("src","http://localhost:8080/api/user/code?tm="+Math.random());
+        });
+       
+        //显示规则错误提示
+        var showFieldTips=function($this,text){
+          var tip=$this.nextAll(".field-tips");
+          tip.show();
+          tip.text(text);
+        };
+        //清除规则错误提示
+        var clearFieldTips=function($this){
+          var tip=$this.nextAll(".field-tips");
+          tip.hide();
+          tip.html("&nbps;");
+        };
+        $(".field").blur(function(){
+              console.log("field blur");
+              clearFieldTips($(this));
+              var _this=$(this);
+              var name=_this.attr("name");
+              var val=$.trim(_this.val());
+              var placeholder=_this.attr("data-placeholder");
+              //手机/邮箱
+              if(name=="tel"){
+                if(val==""){
+                  showFieldTips(_this,"手机/邮箱不能为空");
+                  return;
+                }
+                if(val.indexOf("@")){
+                   if(val.length<6||val.length>50){
+                      showFieldTips(_this,"邮箱格式不正确");
+                      return;
+                   }
+                }else{
+                  if(val.match(/^[0-9]{11}/)==null){
+                     showFieldTips(_this,"手机格式不正确");
+                  }
+                }
+              }
+              //用户名
+              if(name=="username"){
+                  if(val==""){
+                    showFieldTips(_this,"用户名不能为空");
+                    return;
+                  }
+                  if(val.length<6||val.length>16){
+                    showFieldTips(_this,"用户名位数6-16数字英文组成");
+                    return;
+                  }
+                  var data={username:val,type:"1"};
+                //判断该用户是否已经注册
+                  $.ajax({
+                    url:"/api/user/reg",
+                    type:"POST",
+                    dataType:"json",
+                    data:data,
+                    success:function(result){
+                      console.log(result);
+                      if(result.error!=""||result.status=="0"){
+                        console.log(result.error);
+                        return;
+                      }
+                      if(result.result==false){
+                        showFieldTips(_this,regtext.vailide1004);
+                      }else{
+                        clearFieldTips(_this);
+                      }
+                    },
+                    error:function(){
+                      //igonor
+                    }
+
+                  });
+            }
+            //密码
+            else if(name=="password"){
+                //密码为空
+                if(val==""){
+                      showFieldTips(_this,regtext.vailide1005);
+                      return;
+                    }
+                //符合密码匹配规则
+                if(val.match(/^[0-9a-zA-Z]{6,16}$/)==null){
+                  showFieldTips(_this,regtext.vailide1006)
+                }else{
+                   clearFieldTips(_this);
+                }
+            }
+            //验证码
+            else if(name=="checkcode"){
+              if(val==""){
+                showFieldTips(_this,"验证码不能为空");
+                return;
+              }
+              if(val.length!=4){
+                showFieldTips(_this,"验证码为4位");
+                return;
+              }
+              if(val.match(/^[0-9a-zA-Z]{4}$/)==null){
+                showFieldTips(_this,"验证码只能为英文或者数字");
+                return;
+              }
+            }
+            else{
+              //
+            }
+        });
+      });
+       //显示注册验证错误提示
+        var showError=function(text){
+              console.log($(".error-tip"));
+              $(".error-tip").text(text);
+              $(".error-tip").show();
+              setTimeout(clearError,4000);
+        };
+        //清除注册验证错误提示
+        var clearError=function(text){
+             $(".error-tip").hide();
+        };
+        //提交注册信息
+        var submitReg=function(){
+          $("#submit-btn").on("click",function(){
+              if($(this).hasClass('disabled')){
+                console.log("你已提交");
+                return;
+              }
+              $(this).hasClass('disabled');
+              var _this=$(this);
+              var data={};
+              var telOrEmail=$(".regInfo input[name='tel']").val();
+              data["type"]="2";
+              data["username"]=$(".regInfo input[name='username']").val();
+              data["code"]=$(".regInfo input[name='checkcode']").val();
+              data["pwd"]=$(".regInfo input[name='password']").val();
+              data["telOrEmail"]=telOrEmail;
+              console.log(data);
+               $.ajax({
+                  url:"/api/user/reg",
+                  type:"POST",
+                  dataType:"json",
+                  data:data,
+                  cache:false,
+                  success:function(result){
+                    console.log(result);
+                    if(result.error!=""||result.status=="0"){
+                      console.log(result.error);
+                      showError(result.error);
+                      // _this.removeClass("diabled-sub");
+                       return
+                    }
+                    //判断是否是再次发送验证码
+                    if(!$(".regInfo").hasClass('fn-hide')){
+                        //显示手机验证
+                        $(".telCode").removeClass('fn-hide');
+                        $(".regInfo").addClass('fn-hide');
+                        //填充验证类型主题
+                        if(telOrEmail.indexOf("@")!=-1){
+                          $(".telCode .reg-title h2").text("验证邮箱");
+                        }else{
+                          $(".telCode .reg-title h2").text("验证手机");
+                        }
+                        //填充验证类型值
+                        $(".telOrEmail").attr("value",telOrEmail);
+                    }
+                    //开始倒计时
+                    var date=60;
+                    var timer=setInterval(function(){
+                      if(date==0){
+                        $(".reg-sureCode a").text("重发确认码");
+                        clearInterval(timer);
+                      }else{
+                        $(".reg-sureCode a").text(date);
+                      }
+                      date=date-1;
+                    },1000);
+                  },
+                  error:function(result){
+                    showError("注册失败");
+                    // _this.removeClass("diabled-sub");
+                  },
+                  complete:function(){
+                    _this.removeClass('disabled');
+                  }
+               });
+            });
+        }
+        submitReg();
+      //重新发送验证码
+      $(".reg-sureCode a").on("click",function(){
+         //模拟单击提交注册信息
+         $("#submit-btn").click();
+      })
+      //提交手机/邮箱确认码
+      $(".reg-submit a").on("click",function(){
+        if($(this).text()=="取消"){
+          $(".telCode").addClass('fn-hide');
+          $(".regInfo").removeClass('fn-hide');
+        }else{
+          //确定
+          if($(this).hasClass('disabled')){
+            return;
+          }
+          var _this=$(this);
+          $(this).removeClass('disabled');
+          var data={};
+          data["type"]="3";
+          data["sureCode"]=$(".sureCode").val();
+          console.log(data);
+          $.ajax({
+                  url:"/api/user/reg",
+                  type:"POST",
+                  dataType:"json",
+                  data:data,
+                  cache:false,
+                  success:function(result){
+                    console.log(result);
+                    if(result.error!=""||result.status=="0"){
+                       showError(result.error);
+                       return
+                    }
+                    //跳转到登录界面
+                    window.location.href="/login.html";
+                  },
+                  error:function(result){
+                    showError(result.message);
+                    _this.removeClass("diabled-sub");
+                  },
+                  complete:function(){
+                    _this.removeClass('disabled');
+                  }
+               });
+            }
+        });
+    </script>
+  </body>
+</htm>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lwy.dat.dao.ChartMapper">
+  <resultMap id="BaseResultMap" type="com.lwy.dat.pojo.Chart">
+    <constructor>
+      <idArg column=" chart_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="chart_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="table_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ctime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="comments" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="x_axis" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="y_axis" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    " chart_id", type, chart_name, table_id, ctime, comments, x_axis, y_axis
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_chart
+    where " chart_id" = #{chartId,jdbcType=INTEGER}
+  </select>
+  <select id="getChartsById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_chart
+    where " chart_id" = #{chartId,jdbcType=INTEGER}
+  </select>
+  <select id="getChartIdByName"  resultType="Integer">
+    select
+   chart_id
+    from t_chart
+    where table_id = #{tableId,jdbcType=INTEGER} and chart_name=#{chartName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_chart
+    where table_id= #{tableId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteChartById" parameterType="java.lang.Integer">
+    delete from t_chart
+    where chart_id= #{chartId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lwy.dat.pojo.Chart">
+    insert into t_chart (" chart_id", type, chart_name, 
+      table_id, ctime, comments, 
+      x_axis, y_axis)
+    values (#{chartId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{chartName,jdbcType=VARCHAR}, 
+      #{tableId,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{comments,jdbcType=VARCHAR}, 
+      #{xAxis,jdbcType=VARCHAR}, #{yAxis,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lwy.dat.pojo.Chart">
+    insert into t_chart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="chartId != null">
+        " chart_id",
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="chartName != null">
+        chart_name,
+      </if>
+      <if test="tableId != null">
+        table_id,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="comments != null">
+        comments,
+      </if>
+      <if test="xAxis != null">
+        x_axis,
+      </if>
+      <if test="yAxis != null">
+        y_axis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="chartId != null">
+        #{chartId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="chartName != null">
+        #{chartName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableId != null">
+        #{tableId,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comments != null">
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="xAxis != null">
+        #{xAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="yAxis != null">
+        #{yAxis,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lwy.dat.pojo.Chart">
+    update t_chart
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="chartName != null">
+        chart_name = #{chartName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableId != null">
+        table_id = #{tableId,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comments != null">
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="xAxis != null">
+        x_axis = #{xAxis,jdbcType=VARCHAR},
+      </if>
+      <if test="yAxis != null">
+        y_axis = #{yAxis,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where " chart_id" = #{chartId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lwy.dat.pojo.Chart">
+    update t_chart
+    set type = #{type,jdbcType=VARCHAR},
+      chart_name = #{chartName,jdbcType=VARCHAR},
+      table_id = #{tableId,jdbcType=INTEGER},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      comments = #{comments,jdbcType=VARCHAR},
+      x_axis = #{xAxis,jdbcType=VARCHAR},
+      y_axis = #{yAxis,jdbcType=VARCHAR}
+    where " chart_id" = #{chartId,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

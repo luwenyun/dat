@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lwy.dat.dao.FolderMapper">
+  <resultMap id="BaseResultMap" type="com.lwy.dat.pojo.Folder">
+    <constructor>
+      <idArg column="folder_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ctime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="folder_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="original_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    folder_id, ctime, type, user_id, folder_name, original_name,status
+  </sql>
+  <select id="getFolderIdsByUserId" parameterType="java.lang.Integer" resultType="Integer">
+    select
+    folder_id
+    from t_folder
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="getFolderIdByName" resultType="Integer">
+    select
+    folder_id
+    from t_folder
+    where user_id = #{userId,jdbcType=INTEGER} and folder_name=#{folderName,jdbcType=INTEGER}
+  </select>
+  <select id="getFolder" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_folder
+    where folder_name = #{folderName} and user_id=#{userId}
+  </select>
+  <select id="getFolderById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_folder
+    where folder_id = #{folderId,jdbcType=INTEGER}
+  </select>
+  <select id="findAllFolderByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_folder
+    where user_id =#{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_folder
+    where folder_id = #{folderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteFolderByName" >
+    delete from t_folder
+    where folder_name = #{folderName,jdbcType=VARCHAR} and user_id=#{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lwy.dat.pojo.Folder">
+    insert into t_folder (folder_id, ctime, type, 
+      user_id, folder_name, original_name,status
+      )
+    values (#{folderId,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{folderName,jdbcType=VARCHAR}, #{originalName,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lwy.dat.pojo.Folder">
+    insert into t_folder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="folderId != null">
+        folder_id,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="folder_name != null">
+        foldername,
+      </if>
+      <if test="originalName != null">
+        original_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="folderId != null">
+        #{folderId,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="folder_name != null">
+        #{folderName,jdbcType=VARCHAR},
+      </if>
+      <if test="originalName != null">
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateFolderByName" >
+    update t_folder
+    <set>
+      <if test="folderName != null">
+        folder_name = #{folderName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where folder_id = #{folderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateFolderStatusById" >
+    update t_folder
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where folder_id = #{folderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lwy.dat.pojo.Folder">
+    update t_folder
+    set ctime = #{ctime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      foldername = #{folderName,jdbcType=VARCHAR},
+      original_name = #{originalName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where folder_id = #{folderId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

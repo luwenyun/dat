@@ -1,0 +1,953 @@
+<!html doctype>
+<html>
+
+<head>
+    <title>dat首页</title>
+    <link rel="stylesheet" type="text/css" href="./css/base.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="stylesheet" type="text/css" href="./css/upload.css">
+    <link rel="stylesheet" type="text/css" href="./css/edit.css">
+    <link rel="stylesheet" href="./css/jquery.jOrgChart.css"  type="text/css"/>
+    <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./js/jquery.jOrgChart.js"></script>
+    <script src="./js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="./js/d3.min.js"></script>
+    <meta charset="utf-8">
+    <style type="text/css">
+    .btn-disabled{
+    	opacity: .3
+    }
+    .pic-list {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+    
+    .pic-list ul {
+        /*display: inline-block;*/
+    }
+    
+    .pic-list ul li {
+        float: left;
+        width: 45%;
+        height: 50%;
+        padding: 20px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        background: white;
+        border: 0;
+    }
+    
+    .pic-list ul li:hover {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1), 0 16px 24px 0 rgba(170, 182, 206, .36);
+        /*z-index: 100;*/
+    }
+    
+    .svg-name {
+        height: 20px;
+        width: 100%;
+        line-height: 20px;
+        /*background: blue;*/
+        font-size: 14px;
+        color: rgba(10, 18, 32, .87);
+        font-weight: 700;
+    }
+    
+    .add {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .add .add-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+    /*d3*/
+    .bar {
+        fill: steelblue;
+    }
+
+    .bar:hover {
+        fill: brown;
+    }
+
+    .axis--x path {
+        display: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <!-- header start -->
+        <div class="header">
+            <div class="container-header">
+                <div class="logo"><span>DAT</span></div>
+                <div class="nav">
+                    <ul class="dat-options">
+                        <li>
+                            <a class="nav-title options-active" flag="5">采集数据
+                            </a>
+                        </li>
+                        <li><a class="nav-title lr " flag="1">数据处理</a></li>
+                        <li><a class="nav-title lr" flag="2">可视化</a></li>
+                        <li><a class="nav-title" flag="3">机器学习</a></li>
+                        <li><a class="nav-title" flag="4">预测结果</a></li>
+                   </ul>
+                    <ul class="user">
+                        <li class="username" name="username"><span>188****7217</span><img src="./img/user.png"></li>
+                        <li class="bj" name="bj"><i></i></li>
+                        <li class="information" name="information"><i></i></li>
+                        <li class="system-set" name="system-set"><i></i></li>
+                        <li class="help" name="help"><i></i></li>
+                        <li class="exit" name="exit"><i></i></li>
+                        <li class="talk" name="talk"><i></i></li>
+                    </ul>
+                </div>
+                <div class="userInfo-show  fn-hide">
+                    <div class="user-info">
+                        <div >
+                            <i class="userinfo-icon"></i><span>个人信息</span><i class="modify-icon"></i>
+                        </div>
+                        <ul><li ><span class="input-title">昵称</span><input class="input-value" name="nickname" value="1623905995" disabled="disabled" ></li>
+                            <li ><span class="input-title">性别</span><input class="input-value" name="sex" value="1623905995" disabled="disabled" >
+                            </li>
+                             <li ><span class="input-title">公司</span><input class="input-value" name="company" value="1623905995" disabled="disabled" >
+                            </li>
+                            <li ><span class="input-title">职位</span><input class="input-value" name="work" value="1623905995" disabled="disabled" >
+                            </li>
+                            <li><span class="input-title">邮件</span><input class="input-value" name="email" value="1623905995" disabled="disabled" ></li><li><span class="input-title">手机</span><input class="input-value" name="tel" value="1623905995" disabled="disabled" ></li>
+                        </ul>
+                    </div>
+                    <div class="user-pwd">
+                        <div><i class="pwd-icon"></i><span>修改密码</span><i class="modify-icon"></i></div>
+                        <ul><li ><span class="input-title">密码</span><input class="input-value" name="pwd" value="********" disabled="enabled" ></li>
+                        <ul>
+                    </div>
+                    <div class="user-submit"><a href="javascript:void(0);" >取消</a><a href="javascript:void(0);">确定</a></div>
+                </div>
+            </div>
+        </div>
+        <!-- header end -->
+        <!-- body1 in(数据处理) -->
+        <div class="body" flag="1">
+            <div class="container-body">
+            	<!-- left-body1 start -->
+                <div class="left-body left-active fn-hide data-deal" flag="1">
+                    <div class="container-left">
+                        <ul class="wh-list">
+                            <li class="wh">
+                            	<span>数据仓库</span>
+                            	<i class="db-icon"></i>
+                                <i class="add-icon"></i>
+                            </li>
+                            <li class="wh-search">
+                                <input type="text" name="wh-search" placeholder="输入名称搜索">
+                            </li>
+							<li>
+								<ul class="wh-list wh-folderlist" >
+								</ul>
+							</li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- left-body1 end -->
+                <!-- left-body2 start 数据可视化 -->
+                <div class="left-body chart-deal fn-hide" flag="2">
+                    <div class="container-left">
+                        <ul class="wh-list data-view">
+                            <li class="wh">
+                                <div class="wh-name">
+                                	<span>数据仓库</span>
+                                	<i class="db-icon"></i>
+                                </div>
+                                <div class="wh-set">
+                                	<!-- <i class="add-icon"></i>
+                                	<i class="more-icon"></i> -->
+                                </div>
+                            </li>
+                            <li class="wh-search">
+                                <input type="text" name="wh-search" placeholder="输入名称搜索">
+                            </li>
+                            <li>
+                            	<ul class="wh-list wh-folderlist" >
+	                            </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- left-body2 end -->
+                <!-- right-body1 start  display:none-->
+                <div class="right-body right-active data-deal fn-hide" flag="1">
+                    <div class="fn-hide selected-tip">请选择数据表 !</div>
+                    <div class="container-right" >
+                        <div class="title"><span></span></div>
+                        <div class="oper">
+                            <ul>
+                                <li class="oper-li li-active" flag="1">数据处理</li>
+                                <li class="oper-li" flag="2">数据预览</li>
+                                <li class="oper-li" flag="3">关联概况</li>
+                                <li class="oper-li" flag="4">操作日志</li>
+                            </ul>
+                        </div>
+                        <!-- data deal with start  preview orm log-->
+                        <div class="dealwith active" flag="1">
+                            <div class="method">
+                                <ul>
+                                    <li>创建分表</li>
+                                    <li>创建合表</li>
+                                    <li>追加数据</li>
+                                    <li>替换数据</li>
+                                    <li>添加字段</li>
+                                    <li>删除字段</li>
+                                </ul>
+                            </div>
+                            <div class="table">
+                                <table>
+                                </table>
+                            </div>
+                            <!-- <div class="record"></div> -->
+                        </div>
+                        <!-- table div end -->
+                    </div>
+                    <!-- data deal with  end -->
+                    <!-- data preview start -->
+                    <div class="dealwith fn-hide" flag="2">
+                        <div class="preview-condition">
+                            <ul class="condition-ul">
+                                <li class="li-up " flag="1">
+                                	<a>数据筛选</a>
+                                	<i class="down-icon"></i>
+                                </li>
+                                <li class="li-down fn-hide" flag="1">
+                                	<a>收起筛选</a>
+                                	<i class="up-icon"></i>
+                                </li>
+                                <li class="li-up" flag="2">
+                                	<a>显示字段</a>
+                                	<i class="down-icon"></i>
+                                </li>
+                                <li class="li-down fn-hide" flag="2">
+                                	<a>收起设置</a>
+                                	<i class="up-icon"></i>
+                                </li>
+                            </ul>
+                            <!-- display:none -->
+                            <!-- condition start -->
+                            <div class="condition fn-hide" flag="1">
+                                <div class="condition-type">
+                                    <label>筛选方式</label>
+                                    <label>
+                                        <input type="radio" name="filer" checked="checked" flag="1">条件过滤
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="filer" flag="2">表达式过滤
+                                    </label>
+                                </div>
+                                <div class="for-condition for" flag="1" >
+                                    <div>
+                                        <label>满足下列条件</label>
+                                        <select id="orAnd">
+                                            <option class="and">全部条件</option>
+                                            <option class="or">任意条件</option>
+                                        </select>
+                                    </div>
+                                    <div class="condition-div" flag="1">
+                                        <select class="fieldSelect">
+                                        	<option>请选择字段</option>
+                                        </select>
+                                        <select class="conditionSelect">
+                                        	<option>请选择条件语句</option>
+                                            <option>等于</option>
+                                            <option>不等于</option>
+                                            <option>包含</option>
+                                            <option>不包含</option>
+                                            <option>为空</option>
+                                            <option>不为空</option>
+                                        </select>
+                                        <input type="text" name="value" class="fieldValue">
+                                        <div class="condition-label" style="display: inline-block;">
+											<i class="search-icon"></i>
+											<i class="add-icon"></i>
+											<i class="sub-icon"></i>
+										</div>
+                                    </div>
+                                    <div class="submit"><a href="javascript:void(0);">确定</a></div>
+                                </div>
+                                <!-- for-condition end -->
+                                <!-- display:none 表达式过滤-->
+                                <div class="for-expression for fn-hide" flag="2">
+                                    <div class="query">
+                                        <ul class="query-title">
+                                            <li class="title-active">字段</li>
+                                            <li>函数</li>
+                                        </ul>
+                                        <div class="field-list">
+                                            <ul class="fieldUl">
+                                            </ul>
+                                        </div>
+                                        <!-- display:none -->
+                                        <div class="method-list fn-hide" >
+                                            <ul>
+                                                <li><i></i><span>ROW_MAX</span></li>
+                                                <li> <i></i><span>ROW_MIN</span></li>
+    										</ul>
+    									</div>
+									</div>
+									<div class="edit">
+										<div>
+											<textarea id="fieldMethod" ></textarea>
+										</div>
+										<div class="edit-a"><!-- <a href="" class="edit-check">语法检查</a> --><a href="javascript:void(0);" class="edit-submit">确定</a>
+                                        </div>	
+									</div>
+								</div>
+							</div>
+									<!-- condition1 end -->
+									<div class="condition fn-hide" flag="2">
+										<div class="container-cf">
+											<div class="field-title">
+												<ul>
+													<li>工作表字段</li>
+												</ul>
+											</div>
+											<div class="type">
+												<div class="field-type">
+													<!-- <div> -->
+													<input type="checkbox" name="date" class="all">
+													<i></i>
+                                                    <span>日期</span>
+                                                    <!-- </div> -->
+                                                    <!-- <div> -->
+                                                    <dl class="clearfloat field_date">
+                                                    </dl>
+                                                    <!-- </div> -->
+                                        		</div>
+		                                        <div class="field-type">
+		                                            <input type="checkbox" class="all" name="text">
+		                                            <i></i>
+		                                            <span>文本</span>
+		                                            <!-- <div class="container-checkbox"> -->
+		                                            <dl class="clearfloat field_text">
+		                                            </dl>
+		                                            <!-- </div> -->
+		                                        </div>
+		                                        <div class="field-type">
+		                                            <!-- <div> -->
+		                                            <input type="checkbox" class="all" name="number">
+		                                            <i></i>
+		                                            <span>数值</span>
+		                                            <!-- </div> -->
+		                                            <!-- <div> -->
+		                                            <dl class="clearfloat field_number">
+		                                            </dl>
+		                                            <!-- </div> -->
+		                                        </div>
+                                    		</div>
+	                                    <!-- field-type end -->
+	                                    <div class="submit-cf"><a href="javascript:void(0);">确定</a></div>
+                                	</div>
+                            	</div>
+                            <!-- condition-field end-->
+                        	</div>
+	                        <div class="table">
+	                            <table>
+	                        	</table>
+	                    	</div>
+	                	</div>
+                	<!-- data preview end -->
+                	<!-- orm start -->
+		                <div class="dealwith fn-hide" flag="3">
+		                    <div class="orm-type">
+		                        <ul>
+		                            <li class="view " flag="1" >列表视图</li>
+		                            <li class="view" flag="2">过程视图</li>
+		                        </ul>
+		                    </div>
+		                    <!-- display:none  -->
+		                    <div class="list-view fn-hide" flag="1" >
+		                        <div class="list" >
+		                            <div>
+		                                <div class="orm-title">使用此工作表创建的图表</div>
+		                                <div class="orm-table">
+		                                    <table>
+		                                        <tr>
+		                                            <th>关联图表</th>
+		                                            <th>关联子表</th>
+                                                    <th>关联父表</th>
+		                                        </tr>
+		                                    </table>
+		                                    <p class="fn-hide">暂无关联图表</p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <!-- 列表视图结束 -->
+		                    <div class="list-view fn-hide" flag="2">
+		                        <div class="list" >
+		                            <div>
+		                                <div class="orm-title">当前工作表生成图表过程</div>
+		                                <div class="orm-chart">
+		                                    <div class="charts">
+                                                <div id="chart"></div>
+                                            </div>
+		                                    <p style="background: white;" class="fn-hide">当前工作表没有生成图表</p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="list">
+		                            <div>
+		                                <div class="orm-title">当前工作表生成子表过程</div>
+		                                <div class="orm-children">
+		                                    <div class="children">
+                                                <div id="child"></div>
+                                            </div>
+		                                    <p style="background: white;" class="fn-hide">当前工作表没有生成子表</p>
+		                                </div>
+		                            </div>
+		                        </div>
+                                <div class="list">
+                                    <div>
+                                        <div class="orm-title">当前工作表生成父表过程</div>
+                                        <div class="orm-parents">
+                                            <div class="parents">
+                                                <div id="parent"></div>
+                                            </div>
+                                            <p style="background: white;" class="fn-hide">当前工作表没有生成父表</p>
+                                        </div>
+                                    </div>
+                                </div>
+		                    </div>
+                        </div>
+	                    <!-- orm end -->
+	                    <!-- log start -->
+	                    <div class="oper-log dealwith fn-hide" flag="4">
+							<div>
+								<ul>
+								</ul>
+							</div>
+						</div>
+	                    <!-- log end -->
+		            </div>
+		      </div>
+		        <!-- </div> -->
+        		<!-- right-body1 end -->
+                <!--right-body2 start-->
+		        <div class="right-body data-view fn-hide" flag="2">
+		            <div class="container-right">
+		            <div class="title"><span>a.bassic</span></div>
+		                <div class="pic-list">
+		                    <ul>
+		                    	<li>
+		                            <div class="add"><i class="add-icon" title="添加图表"></i>
+		                            </div>
+		                        <li>
+		                            <div class="svg-name"><span>未命名图表</span></div>
+		                            <div class="svg"></div>
+		                        </li>
+		                        <li>
+		                            <div class="svg-name"><span>未命名图表</span></div>
+		                            <div class="svg"></div>
+		                        </li>
+		                        <li>
+		                            <div class="svg-name"><span>未命名图表</span></div>
+		                            <div class="svg"></div>
+		                        </li>
+		                        <li>
+		                        </li>
+		                    </ul>
+		                </div>
+		            </div>
+		        </div>
+		        <!-- right-body2 end -->
+		    </div>
+		    <!-- container-body end -->
+			    <!-- body end -->
+			    <!-- show1 end -->
+			    <!-- show2 start -->
+			    <!-- show2 end -->
+			    <!-- show3 start -->
+			    <!-- show3 end -->
+			    <!-- show4 start -->
+			    <!-- show4 end -->
+    	</div>
+    	<!-- body2 start 数据采集 -->
+            <div class="body body-active upload-body" flag="5">
+                <!-- <div class="test"> -->
+                <div class="container-body">
+                    <div class="upload-list">
+                        <ul>
+                            <li class="list-1 flag"><span>1</span>导入文件</li>
+                            <li class="list-2 "><span>2</span>预览数据</li>
+                            <li class="list-3 "><span>3</span>配置仓库</li>
+                        </ul>
+                    </div>
+                    <!-- show1 start -->
+                    <div class="show-import">
+                        <div class="container-show">
+                            <div class="choose">
+                                <div class="choose-file ">
+                                    <div class="upload-file">
+                                        <a href="javascript:void(0);" id="upload-btn">点击文件上传
+                              <!--   <form id="form"  action="http://localhost:8080/api/excel/upload" method="post" enctype="multipart/form-data">
+                                  <input type="file" title="" name="file" multiple="multiple"  id="file-list"  > -->
+                                  <!-- <input type="submit" value="提交"> -->
+                                <!-- </form> -->
+                              </a>
+                                        <!-- <span>或者拖拽上传</span> -->
+                                    </div>
+                                    <p class="upload-tip">支持Excel和CSV文件（单个文件50M）</p>
+                                    <p class="upload-tip">最多5个文件批量上传，默认识别第一个sheet文件</p>
+                                </div>
+                                <div class="upload-progress fn-hide ">
+                                    <!--  <div><span>正在上传...</span><a href="" id="cancel-btn">取消</a></div>
+                            <div><span>正在上传...</span><a href="" id="cancel-btn">取消</a></div>
+                            <div><span>正在上传...</span><a href="" id="cancel-btn">取消</a></div>
+                            <div><span>正在上传...</span><a href="" id="cancel-btn">取消</a></div>
+                            <div><span>正在上传...</span><a href="" id="cancel-btn">取消</a></div> -->
+                                </div>
+                            </div>
+                            <div class="exmple">
+                                <dl>
+                                    <dt>表格示例</dt>
+                                    <dd>
+                                        <p>1.请上传有标准行列的一维数据表格。（有合并单元格的数据请处理过后再上传，否则可能出现表头识别有误）</p>
+                                        <p>2.日期字段需包含年月日（如2016/1/1），或年月日时分秒。（如2016/1/1 00:00:00）</p>
+                                    </dd>
+                                </dl>
+                                <ul>
+                                    <li style="width: 68px">第1列</li>
+                                    <li style="width: 90px">第3列</li>
+                                    <li style="width: 103px">第2列</li>
+                                    <li style="width: 108px">第4列</li>
+                                    <li style="width: 108px">第5列</li>
+                                    <li style="width:109px ">第6列</li>
+                                    <li style="width: 104px">第7列</li>
+                                    <li style="width: 104px">第8列</li>
+                                    <li style="width: 109px">第9列</li>
+                                </ul>
+                                <table>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>拜访人</th>
+                                        <th>员工编号</th>
+                                        <th>部门</th>
+                                        <th>职位</th>
+                                        <th>拜访日期</th>
+                                        <th>拜访时间</th>
+                                        <th>客户类型</th>
+                                        <th>进展</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>乔歆然</td>
+                                        <td>600001</td>
+                                        <td>销售一部</td>
+                                        <td>销售总监</td>
+                                        <td>2016/8/8</td>
+                                        <td>11:23</td>
+                                        <td>互联网</td>
+                                        <td>初次拜访</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>丘慧美</td>
+                                        <td>600002</td>
+                                        <td>销售一部</td>
+                                        <td>销售总监</td>
+                                        <td>2016/8/8</td>
+                                        <td>14:43</td>
+                                        <td>电商 </td>
+                                        <td>初次拜访</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>束怜烟</td>
+                                        <td>600003</td>
+                                        <td>销售一部</td>
+                                        <td>销售总监</td>
+                                        <td>2016/8/8</td>
+                                        <td>16:34</td>
+                                        <td>商贸</td>
+                                        <td>初次拜访</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- show1 end -->
+                    <!-- show2 start -->
+                    <div class="show-data fn-hide">
+                        <div class="container-show">
+                            <div class="">
+                                <p style="line-height:32px">当前选中的表头为第 1 行，如不符合预期，可点击将你需要的数据行指定为表头和设置表头类型.</p>
+                                <p style="line-height:32px">表头前的数据，将不会保留</p>
+                                <div class="file-name"></div>
+                                <div class="table">
+                                </div>
+                                <div style="text-align: right;vertical-align: middle;"><i class="ref-icon"></i><a href="" class="reflesh" style="text-decoration: underline;">刷新预览</a></div>
+                                <div class="next-pre"><a href="javascript:void(0);" class="pre">上一步</a><a href="javascript:void(0);" class="next">下一步</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- show2 end -->
+                    <!-- show3 start -->
+                    <div class="show-set fn-hide">
+                        <div class="container-show">
+                            <div class="set-input">
+                                <div class="input">
+                                    <label>表名</label>
+                                    <input type="text" name="" id="set-filename">
+                                </div>
+                                <div class="input">
+                                    <label>仓库名</label>
+                                    <input type="text" name="" id="set-whname">
+                                </div>
+                                <div class="input">
+                                    <label>分类标签</label>
+                                    <input type="text" name="" id="set-type">
+                                </div>
+                                <div class="input">
+                                    <label class="label-comments">备注</label>
+                                    <textarea type="text" id="set-comments" maxlength="100" placeholder="请输入工作表备注信息"></textarea>
+                                </div>
+                                <div class="next-pre"><a href="javascript:void(0);" class="pre">上一步</a><a href="javascript:void(0);" class="next">下一步</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- show3 end -->
+            </div>
+            <!-- </div> -->
+    		<!-- upload-body div end -->
+    		<!-- edit-html -->
+    		<div class="edit-body body fn-hide" >
+				<div class="container-body fn-clear">
+					<div class="edit-left fn-clear">
+                        <div class="cancel" style="text-align: right;"><a href="javascript:void(0);">取消</a></div>
+						<div class="container-lfbody">
+							<div class="svg">
+
+								<div class="function">
+									<div class="choose">
+										<label>
+                                            <select class="field-text">
+                                                <option>选择维度</option>
+                                            </select>
+                                            <select class="field-number">
+                                                <option>选择数值</option>
+                                            </select>
+                                        </label>
+									</div>
+									<div class="input-value">
+										<label>
+                                            维度:<input style="width:240px;" type="text" name="fieldText" />
+                                        </label>
+									</div>
+                                    <div class="input-value">
+                                        <label>
+                                            数值:<input style="width:240px;" type="text" name="fieldNum" />
+                                        </label>
+                                    </div>
+									<div class="other"><label>其他功能</label></div>
+								</div>
+								<div class="svg-oper">
+									<div class="save">
+										<label>图表备注<input type="text" name=""></label>
+										<label>图表名称<input type="text" name=""></label>
+										<a href="">保存</a>
+									</div>
+									<div class="svg-d3 fn-clear">
+                                        <svg width="800" height="400"></svg>
+                                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- left body end -->
+					<div class="edit-right">
+						<div class="container-rtbody">
+							<dl>
+								<dt>图表类型</dt>
+								<dd>
+									<ul>
+										<li><a href="javascript:void(0);" title="表格"><i class="bg-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="指标图"><i class="jb-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="计量图"><i class="jl-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="折线图"><i class="zx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="簇状柱形图"><i class="czzx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="堆积柱形图"><i class="djzx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="百分比柱形图"><i class="bfbzx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="瀑布图"><i class="pb-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="条形图"><i class="tx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="堆积条形图"><i class="djtx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="百分比堆积条形图"><i class="bfbdjtx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="对比条形图"><i class="dbtx-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="面积图"><i class="mj-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="堆积面积图"><i class="djmj-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="百分比堆积面积图"><i class="bfbdjmj-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="散点图"><i class="sd-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="普通饼图"><i class="ptb-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="旭日图"><i class="xr-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="树图"><i class="s-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="漏斗图"><i class="ld-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="地图(面积)"><i class="mjdt-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="地图(气泡)"><i class="qpdt-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="双轴图"><i class="sz-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="词云"><i class="cy-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="桑基图"><i class="sj-icon chart-icon"></i></a></li>
+										<li><a href="javascript:void(0);" title="雷达图"><i class="leid-icon chart-icon"></i></a></li>
+									</ul>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<!-- edit-right end -->
+				</div>
+			</div>
+			<!-- body end -->
+    	</div>
+    <!-- main div end -->
+    <!-- 创建图表 -->
+    	<div class="field-list" style="display: none;" >
+			<div class="container-fieldlist">
+				<div class="title">批量添加维度字段</div>
+				<div class="field-type">
+					<dl class="fn-clear">
+						<dt>
+							<input type="checkbox" name=""><i class="date-icon"></i><span>日期</span>
+						</dt>
+						<dd>
+							<ul class="field-ul fn-clear">
+								<li><input type="checkbox" name=""><span>heh</span></li>
+								<li><input type="checkbox" name=""><span>heh</span></li>
+							</ul>
+						</dd>
+						</dl>
+					</div>
+					<div class="field-type">
+						<dl  class="fn-clear">
+							<dt>
+								<input type="checkbox" name=""><i class="text-icon"></i><span>文本</span>
+							</dt>
+							<dd>
+								<ul class="field-ul fn-clear">
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+								</ul>
+							</dd>
+						</dl>
+					</div>
+					<div class="field-type">
+						<dl  class="fn-clear">
+							<dt>
+								<input type="checkbox" name=""><i class="number-icon"></i><span>数值</span>
+							</dt>
+							<dd>
+								<ul class="field-ul fn-clear">
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+									<li><input type="checkbox" name=""><span>heh</span></li>
+								</ul>
+							</dd>
+						</dl>
+					</div>
+					<div class="submit-cf"><a href="">确定</a><a href="">取消</a></div>
+				</div>
+			</div>
+    <script type="text/javascript">
+	    //导航栏点击事件
+	    $(".nav-title").on("click",function() {
+            //防止重复点击
+            if($(this).hasClass('options-active')==true){
+                return;
+            }
+	    	//把其他导航活动类取消，给点击对象添加活动类
+	        $(".options-active").removeClass("options-active");
+	        $(this).addClass("options-active");
+	        //获取点击对应的编号
+	        var flag=$(this).attr("flag");
+	        //判断是否正在编辑创建图表界面
+	        if($(".edit-body").hasClass('edit-active')==true){
+	        	//恢复之前隐藏的左右布局
+	        	$(".left-body[flag=1]").addClass('left-active');
+		    	$(".right-body[flag=1]").addClass('right-active');
+		    	//因为两个导航类共用一个left-body布局，当切换的时候，该left-body已经隐藏了，所以不应该再添加fn-hide.
+		    	if($(".left-body[flag=1]").hasClass('fn-hide')!=true){
+		    		$(".left-body[flag=1]").removeClass('fn-hide');
+		    	}
+		    	$(".right-body[flag=1]").removeClass('fn-hide');
+		    	//隐藏正在编辑创建图表界面
+		    	$(".edit-body").removeClass("edit-active");
+	    		$(".edit-body").addClass('fn-hide');
+	        }
+	        //为了节省代码，把共同使用的left-body right-body的两个导航类增加lr来区分
+	        if($(this).hasClass('lr')==true){
+	        	//把其他导航活动类隐藏
+	        	$(".body-active").addClass("fn-hide");
+	        	$(".body-active").removeClass("body-active");
+	        	//两个lr导航类自己根据flag处理
+		        $(".left-active").addClass("fn-hide");
+		        $('.left-body[flag='+flag+']').removeClass("fn-hide");
+		        $(".left-body").removeClass("left-active");
+		        $('.left-body[flag='+flag+']').addClass("left-active");
+		        $(".right-active").addClass("fn-hide");
+		        $('.right-body[flag='+flag+']').removeClass("fn-hide");
+		        $(".right-body").removeClass("right-active");
+		        $('.right-body[flag='+flag+']').addClass("right-active");
+		        //两个导航类只增加一次活动类
+		       	if($(".body[flag=1]").hasClass('body-active')==false){
+		       		$(".body[flag=1]").addClass("body-active");
+		       		$('.body[flag=1]').removeClass("fn-hide");
+		       	}
+		    }else{//其他导航类
+		    	$(".body-active").addClass("fn-hide");
+	        	$(".body-active").removeClass("body-active");
+	        	$('.body[flag='+flag+']').addClass("body-active");
+	        	$('.body[flag='+flag+']').removeClass("fn-hide");
+		    }
+		    //请求文件夹以及每个文件夹的列表数据
+		    if($(this).text().indexOf("数据处理")!=-1||$(this).text().indexOf("可视化")!=-1){
+                var text=$(this).text();
+			    $.ajax({
+			    	url:"http://localhost:8080/api/folder/list",
+			    	type:"POST",
+			    	dataType:"json",
+			    	data:{"hastable":true},
+			    	cache:false,
+			    	success:function(result){
+			    		if(result.error!=""){
+			    			return;
+			    		}
+			    		showFolder(text,result);
+			    		//模拟单击第一个文件夹的第一个文件事件
+                        if(text.indexOf("数据处理")!=-1){
+                            $(".data-deal .wh-list .whfolder").first().children("div").first().trigger('click');
+                            $(".data-deal .wh-list .whfolder").first().children("ul").children().first().trigger('click');
+                        }else{
+                            //文件夹事件
+                            $(".data-view .wh-list .whfolder").first().children("div").first().trigger('click');
+                            //文件事件
+                            $(".data-view .wh-list .whfolder").first().children("ul").children().first().trigger('click');
+                        }
+			    	},
+			    	error:function(result){
+			    		console.log("请求服务器文件夹和文件名失败！");
+			    	}
+			    });
+			}
+	    });
+	    //显示文件夹和每个文件夹夹下的文件名
+	    var showFolder=function(text,result){
+            var folder_ul;
+            if(text.indexOf("数据处理")!=-1){
+                folder_ul=$('.data-deal .wh-folderlist');
+            }else{
+                folder_ul=$('.data-view .wh-folderlist')
+            }
+            //先移出之前生成的文件夹
+            folder_ul.empty();
+	    	//循环取出文件夹
+            var flag=0;
+            console.log("list:",result);
+	    	for(var folder in result.result){
+                //文件名,遍历对象获取文件名
+                var fileNameList=result.result[folder];
+                console.log("fileNameList:"+fileNameList.length);
+                flag+=1;
+                var folder_li;
+                if(text.indexOf("数据处理")!=-1){
+    	    		folder_li=$('<li class="whfolder">'+
+        	    						'<div class="folder">'+
+                               				'<i class="folder-icon"></i>'+
+                                        	'<span data-value="'+folder+'">'+folder+'</span>'+
+                                        	'<i class="more-icon" style="opacity: 1;"></i>'+
+                                        '</div>'+
+                                        '<ul class="files fn-hide files-hover" flag="'+flag+'"></ul>'+
+                                    '</li>');
+                }else{
+                    folder_li=$('<li class="whfolder">'+
+                                        '<div class="folder">'+
+                                            '<i class="folder-icon"></i>'+
+                                            '<span data-value="'+folder+'">'+folder+'</span>'+
+                                        '</div>'+
+                                        '<ul class="files fn-hide files-hover" flag="'+flag+'"></ul>'+
+                                    '</li>');
+                }
+                //必须先插入，否则jquery找不到file_li对象。
+                folder_ul.append(folder_li);
+                if(fileNameList.length==0){
+                        continue;
+                    }
+                for(var i=0;i<fileNameList.length;i++){
+                    console.log("name:"+fileNameList[i]);
+                    var file_li;
+                    if(text.indexOf("数据处理")!=-1){
+        	    	    //从文件夹里取出文件
+        	    	  	file_li=$('<li>'+
+                                          '<i class="file-icon"></i>'+
+                                          '<span data-value="'+fileNameList[i]+'">'+fileNameList[i]+'</span>'+
+                                          '<i class="more-icon">'+
+                                         '</li>');
+                        $('.files[flag="'+flag+'"]').append(file_li);
+                    }else{
+                        //从文件夹里取出文件
+                        file_li=$('<li>'+
+                                          '<i class="file-icon"></i>'+
+                                          '<span data-value="'+fileNameList[i]+'">'+fileNameList[i]+'</span>'+
+                                         '</li>');
+                        $('.files[flag="'+flag+'"]').append(file_li);
+                    }
+                }
+	    	}
+            //元素绑定事件时，元素必须已经在body里面了，否则失效。
+            if($(".folder").length!=0){
+                waitRun();
+            }
+
+	    };
+        //全局错误提示函数
+        var errorTip=function(text){
+             var  errText=text;
+                    $(".error-tip").text(errText).removeClass("fn-hide");
+                    //设置定时显示错误
+                    var timer=setInterval(function(){
+                        if($(".error-tip").hasClass('fn-hide')){
+                            clearInterval(timer);
+                        }
+                        $(".error-tip").addClass("fn-hide");
+                    }, 5000);
+        }
+        //获取存储用户名的cookie
+        var username=$.cookie("username");
+        console.log(username);
+        $(".username").children("span").text(username);
+    </script>
+    <script type="text/javascript" src="./js/header.js"></script>
+    <script type="text/javascript" src="./js/upload.js"></script>
+    <script type="text/javascript" src="./js/deal.js"></script>
+    <script type="text/javascript" src="./js/chart.js"></script>
+    <script type="text/javascript" src="./js/show.js"></script>
+    <!-- <script type="text/javascript" src="./js/jquery-migrate-1.2.1.min.js"></script> -->
+    <!-- 全局错误提示 -->
+    <div class="error-tip fn-hide">出错处理</div>
+</body>
+
+</html>

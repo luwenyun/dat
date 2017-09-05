@@ -1,0 +1,468 @@
+
+<!DOCTYPE HTML>
+<html>
+ <head>
+ 	 <meta charset="UTF-8">
+ 	 
+     <title>登录-DAT</title>
+     <!-- <link rel="stylesheet" type="text/css" href="./font/iconfont.css"> -->
+     <link rel="stylesheet" type="text/css" href="./css/base.css">
+     <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+     <script src="./js/jquery.cookie.js"></script>
+     <style type="text/css">
+    body{
+  		background:#f6f6f6;
+  		font-family: "PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  	}
+  	html{
+  		background:#f6f6f6;
+  	}
+  	#header{
+  		width:100%;
+  		height:64px;
+  		background:#F0F2F3;
+      box-shadow: 0 0 6px 0 rgba(0,0,0,.12), 0 10px 12px 0 rgba(170,182,206,.2), inset 0 -1px 0 0 rgba(255,255,255,.3);
+
+  	}
+  	/*.logo{
+  		float:left;
+  		margin-left:48px;
+  	}*/
+  	.clearfix:after{
+  		display:block;
+  		clear:both;
+  		content:"";
+  		visibility:hidden;
+  		height:0px;
+  		} 
+    .clearfix{
+    	zoom:1;
+    } 
+  	#title{
+  		width:620px;
+  		margin:0px auto;
+  		margin-top:25px;
+  		border-bottom:2px solid #3399cc;
+  		/*overflow:hidden;*/
+  	}
+  	.tl{
+  		float:left;
+  		margin:13px 0px;
+  	}
+  	.tr{
+  		float:right;
+  		margin:13px 0px;
+  		font-size:12px;
+  		font-family:"PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  	}
+  	.tr a{
+  		color:#0085d7;
+  	}
+  	.centent{
+  		line-height:16px
+        line-height:20px;
+  		font-size:16px;
+  		font-weight:700;
+  		font-family:"PingFang SC","Microsoft yahei","Helvetica Neue","Helvetica","Arial",sans-serif;
+  	}
+  	.login-a{
+  		font-weight:700;
+  	}
+  	/*form-login*/
+  	#form-login{
+  	 position:relative;
+      width:620px;
+      margin:auto;
+      margin-top:23px;
+      margin-bottom:78px;
+      background-color:#fff;
+  	}
+    .login-container{
+     /*  background:#000;*/
+       padding:60px;
+       padding-right:0px;
+   }
+  	.login,.other-login,.split{
+       
+  		float:left;
+  	}
+  	.login input{
+  		margin-bottom:20px;
+  		height:25px;
+  		width:250px;
+  		outline:none;
+  		border:1px solid #ddd;
+  		color:#999;
+  		padding-left:2px;
+  	}
+    .login .check-input{
+      width:100px;
+    }
+  	.login .login-btn .loginbtn-a{
+  	    color:#fff;
+  	    background:#ffbe2f;
+  	    text-decoration:none;
+  	    text-align:center;
+  	    display:inline-block;
+  	    width:90px;
+  	    height:30px;
+  	    line-height:30px;
+  	    margin-right:10px;
+  	    border-radius:4px;
+  	}
+  	.login .login-btn .forget-a{
+  		color:#f29c33;
+  		font-size:12px;
+  		text-decoration:underline;
+  	}
+  	
+  	.split{
+  		width:2px;
+  		background:#3399cc;
+  		height:135px;
+
+  	}
+  	.split,.other-login{
+  		margin-left:30px;
+  	}
+  	.other-login .other-qq,.other-login .other-vb{
+  		border:1px solid #ddd;
+  		margin-bottom:5px;
+  		width:200px;
+  		height:40px;
+  	}
+  	.other-login .other-qq a,.other-login .other-vb a{
+  		display:block;
+  		width:100%;
+  		height:100%;
+  		text-decoration:none;
+  		line-height:40px;
+  		font-size:12px;
+  		color:#000;
+  	}
+  	.other-title{
+  		font-size:14px;
+  		margin-bottom:20px;
+  	}
+  	.other-login .qq-icon,.other-login .vb-icon{
+  		background:url(./img/login-icon.png) no-repeat;
+  		background-size:cover;
+  		display:inline-block;
+  		height:20px;
+  		width:23px;
+  		margin-left:5px;
+  		margin-right:10px;
+  		vertical-align:middle;
+  	}
+  	.other-login .qq-icon{
+		background-position:-111px 0px;
+  	}
+  	.other-login .vb-icon{
+        background-position:-22px,0px;
+  	}
+  	.other-login .other-qq span,.other-login .other-vb span{
+  		vertical-align:middle;
+  	}
+  	/*hidden*/
+  .Error-tips{
+  		display:none;
+  		position:absolute;
+  		font-size:14px;
+  		left:60px;
+  		z-index:2;
+  		top:30px;
+  		background:#fbfce9;
+  		color:red;
+  		border:1px solid #d3d3cf;
+  		width:250px;
+  		height:30px;
+  		line-height:30px;
+  		border-radius: 3px;
+  		padding-left: 2px;
+  	}
+  	#form-login .field-tips{
+  		display:none;
+  		margin-bottom:5px;
+  		margin-top:-18px;
+  		font-size:14px;
+  		color:red;  
+  	}
+    .check-icon{
+      display:none;
+      font-size:18px;
+      color:red;
+      vertical-align:middle;
+    }
+    #check-img{
+      /*display:none;*/
+      border:1px solid #ddd;
+      height:25px;
+      width:100px;
+      vertical-align:middle;
+    }
+    .check-input{
+      /*display:none;*/
+    }
+  	.logo{
+      display: inline-block;
+      float:left;
+      background-color: #5182E4;
+      color: #fff;
+      text-align: center;
+      font-size:16px;
+      font-weight: 700;
+      /*padding-top: 20px;*/
+      line-height: 64px;
+      width:80px;
+      height: 64px;
+    }
+
+
+     </style>
+ </head>
+ <body>
+ 	<!-- header -->
+ 	<div id="header">
+ 		<div class="header-container">
+ 			<div class="logo"><span>DAT</span></div>
+ 		</div>
+ 		
+ 	</div>
+ 	<!-- title -->
+ 	<div id="title" class="clearfix">
+  		<div class="tl">
+  			<span class="centent">登录DAT</span>
+  		</div>
+  		<div class="tr">
+  			<span class="is-user">还未注册DAT？</span>
+  			<a href="/reg.html" class="login-a">立即注册&gt;&gt;</a>
+  		</div>
+ 	</div>
+ 	<!-- login form -->
+ 	<div id="form-login">
+ 		<!-- hidden -->
+ 		<div  class="Error-tips">用户名或者密码错误</div>
+ 		<div class="login-container clearfix">
+	 		<div class="login">
+	 			<div class="tel">
+	 			    <input type="text" name="username" class="input tel-input" data-placeholder="请输入用户名" placeholder="请输入用户名">
+	 			    <!-- hidden -->
+                    <div class="field-tips">用户名格式错误</div>
+	 			</div>
+	 			<div class="pwd">
+	 			    <input type="password" name="password" class="input pwd-input" data-placeholder="请输入密码" placeholder="请输入密码">
+	 			    <!-- hidden -->
+	 			    <div class="field-tips">请输入6-16位数字英文组成的密码</div>
+	 			</div>
+        <!-- hidden -->
+        <div class="checkcode fn-hide">
+	         <input type="text" name="checkcode" class="input check-input" data-placeholder="请输入验证码" placeholder="请输入验证码">
+	         <i class="iconfont check-icon icon-dagou"></i>
+	        <!--  <img src="http://localhost:8080/api/user/code"  id="check-img"> -->
+        </div>
+	 			<div class="login-btn">
+	 				<a class="loginbtn-a" href="javascript:void(0)">立即登录</a>
+	 				<a class="forget-a" href="">忘记密码</a>
+	 			</div>
+	 		</div>
+	 		<div class="split">	
+	 		</div>
+	 		<div class="other-login">
+	 			<div class="other-title">
+	 				<span>用合作网站直接登录</span>
+	 			</div>
+	 			<div class="other-qq">
+	 				<a href=""><i class="qq-icon"></i><span>QQ账号直接登录</span></a>
+	 			</div>
+	 			<div class="other-vb">
+	 				<a href=""><i class="vb-icon"></i><span>微博账号直接登录</span></a>
+	 			</div>
+	 		</div>
+	 	</div>
+ 	</div>
+ 	
+ 	<script type="text/javascript">
+
+ 	$(document).ready(function(){
+    
+    //判断登录失败次数
+    var loginTimes=$.cookie("loginTimes");
+      if(loginTimes>=3){
+         if($("#check-img").length==0){
+          var img=$('<img src="http://localhost:8080/'+
+            'api/user/code"  id="check-img">');
+          $(".checkcode").append(img);
+        }
+        $(".checkcode").removeClass('fn-hide');
+    }
+	 	 var local={
+	 	          reg:{
+	 	              vailide1001:'手机号/邮箱不能为空',
+	 	              vailide1002:'手机号格式不正确',
+	 	              vailide1003:'邮箱格式不正确',
+	 	              vailide1004:'该账号已被注册',
+	 	              vailide1005:'密码不能为空',
+	 	              vailide1006:'密码为6-16位数字英文组合',
+	 	              vailide1007:'系统异常，请稍后重试',
+                  vailide1008:'用户名为6-16位数字组成',
+	 	          }
+	 	        };
+	 	    var regtext=local.reg;
+		 	$(".input").blur(function(){
+		        var _this=$(this);
+            clearFieldTips($(this));
+		        var name=_this.attr("name");
+		        var val=$.trim(_this.val());
+		        var placeholder=_this.attr("data-placeholder");
+		        //用户名
+		        if(name=="username"){
+	              //标志是否输入格式正确
+	              var hasReg=false;
+                if(val==""){
+                    showFieldTips(_this,"用户名不能为空");
+                    return;
+                  }
+                if(val.length<6||val.length>16){
+                  showFieldTips(_this,regtext.vailide1008);
+                    return;
+                }
+		            // // 输入的是电话号码
+  		          // if(/^[0-9]*$/.test(val)){
+  		          //    if(!/^1[34578]\d{9}$/.test(val)){
+  		          //     showFieldTips(_this,regtext.vailide1002);
+  		          //    }else{
+  		          //     clearFieldTips(_this);
+  		          //     hasReg=true;
+  		          //    }
+  		          // }
+  		          // //输入的是邮箱
+  		          // if(/@/.test(val)){
+  		          //   if (!/^([a-zA-Z0-9]+[_|\_|\.|-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.|-]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(val)) {
+  		          //     showFieldTips(_this, regtext.vailide1003);
+  		          //   }else{
+              //       clearFieldTips(_this);
+  		          //     hasReg=true;
+  		          //   }
+  		          // }
+  		          
+  		      }
+			      //密码
+			      else if(name=="password"){
+			          //密码为空
+			          if(val==""){
+			                showFieldTips(_this,regtext.vailide1005);
+			                return;
+			              }
+			          //符合密码匹配规则
+			          if(val.match(/^[0-9a-zA-Z]{6,16}$/)==null){
+			            showFieldTips(_this,regtext.vailide1006)
+			          }else{
+			             clearFieldTips(_this);
+			          }
+			      }
+			      //验证码
+			      else if(name=="checkcode"){
+			         if(val.match(/^[0-9a-zA-Z]{4}$/)!=null){
+			           $.ajax({
+			            type:"post",
+			            dataType:"json",
+			            url:"http://localhost:8080/api/user/checkCode",
+			            data:{code:val},
+                  cache:false,
+			            success:function(result){
+			              console.log(result.success);
+			              if(result.success){
+			                $("#check-icon").show();
+			              }else if(result.refresh){
+			                $("#checkcode").click();
+			              }else{
+			                $("check-icon").hide();
+			              }
+			            },
+			            error:function(){
+			               $("check-icon").hide();
+			            }
+			           });
+			         }
+		           }
+			      else{
+			        //
+			      }
+		       });
+	 	     var showError=function(text){
+	 	    	$(".Error-tips").text(text).show();
+	 	    	setTimeout(clearError,4000);
+	 	     };
+	 	     var clearError=function(){
+	 	    	console.log("clear");
+	 	    	$(".Error-tips").hide();
+	 	     };
+	 	  	//显示规则错误提示
+	         var showFieldTips=function($this,text){
+		           var tip=$this.nextAll(".field-tips");
+		           tip.show();
+		           tip.text(text);
+	         };
+	         //清除规则错误提示
+	         var clearFieldTips=function($this){
+		          var tip=$this.nextAll(".field-tips");
+		          tip.hide();
+		          tip.html("&nbps;");
+	          };
+	 	     $(".login-btn").click(function(){
+	 	    	  var _this=$(this);
+	 	    	  if(_this.hasClass("disabled"))
+	 	    		  return;
+	 	    	  _this.addClass("disabled");
+	 	    	  var data={};
+            data["username"]=$("input[name='username']").val();
+            data["password"]=$("input[name='password']").val();
+            data["code"] =$("input[name='checkcode']").val();
+	 	    	  console.log(data);
+	 	    	   $.ajax({
+		                  url:"http://localhost:8080/api/user/login",
+                      type:"POST",
+		                  dataType:"json",
+		                  data:data,
+                      cache:false,
+		                  success:function(result){
+                        console.log(result);
+                        if(result.error!=""||result.status=="0"){
+                          console.log(result.error);
+                          showError(result.error);
+                          //登录次数cookie
+                          $.cookie("loginTimes",result.loginTimes);
+                          if(parseInt(result.loginTimes)>=3){
+                            if($("#check-img").length==0){
+                              var img=$('<img src="http://localhost:8080/'+
+                                'api/user/code"  id="check-img">');
+                              $(".checkcode").append(img);
+                            }
+                            $(".checkcode").removeClass('fn-hide');
+                          }
+                          _this.removeClass("disabled");
+                          return;
+                        }
+                        //设置cookie
+                        var username=result.result.username;
+                        $.cookie("username", username);
+                        //清除登录次数cookie
+                        window.location.href="/index.html";
+		                  },
+		                  error:function(result){
+                        console.log("登录失败");
+		                    showError("登录失败");
+		                    _this.removeClass("disabled");
+		                  }
+               });
+	 	      });
+ 	 });
+  //验证码点击事件
+  $("#check-img").on("click",function(){
+    console.log("click check -img");
+    $(this).attr("src","http://localhost:8080/api/user/code?tm="+Math.random());
+  });
+         
+ 	</script>
+ </body>
+</html>
